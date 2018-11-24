@@ -5,9 +5,12 @@
 
 		public function executeQuery($query, $values) {
 
-			$stmt=$this->conn->prepare($query);
+			$stmt=NULL;
 			if ($values != NULL) {
+				$stmt=$this->conn->prepare($query);
 				$stmt->execute($values) or die('Failed to execute select on table ${table_name}..!');
+			} else {
+				$stmt=$this->conn->query($query) or die('Failed to execute select on table ${table_name}..!');
 			}
 
 			return $stmt->fetchAll(PDO::FETCH_ASSOC); 
