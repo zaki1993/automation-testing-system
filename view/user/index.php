@@ -1,5 +1,7 @@
 <?php
-	
+
+	require_once 'user.php';
+
 	function validateUser() {
 		session_start();
 		if (!isset($_SESSION["__userData"]) || $_SESSION["__userData"]==NULL) {
@@ -10,7 +12,9 @@
 	}
 
 	validateUser();
-
 	require_once "main/navbar.php";
+	
+	#$userData=$_SESSION['__userData'];
+	#echo $userData->getRole();
 
 ?>

@@ -9,13 +9,14 @@
 <?php
 
   function getRole($session) {
-    $userData=unserialize($session["__userData"]);
+
+    $userData=$session['__userData'];
     return $userData->getRole();
   }
 ?>
 <div class="topnav">
   <?php
-    if(getRole($_SESSION)) {
+    if(getRole($_SESSION) === "admin") {
       echo '<a href="#home" class="active nav-link">Home</a>';
     }
   ?>

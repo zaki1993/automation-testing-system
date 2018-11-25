@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="../../style/login.css">
-  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="../../style/forms.css">
+  <title>Вход в системата</title>
 </head>
 <body>
   <script type="text/javascript">
@@ -22,7 +22,7 @@
       $authenticator=new Authenticator($username, $password);
       $isAuthorized=$authenticator->login($username, $password);
       if ($isAuthorized) {
-        $_SESSION["__userData"]=$authenticator->getUser();
+        $_SESSION['__userData']=$authenticator->getUser();
         # redirect to home page
         echo '<script type="text/javascript">
                 window.location = "../"
@@ -35,7 +35,7 @@
 
     # if the user access this page unlog it
     session_start();
-    $_SESSION["__userData"]=NULL;
+    $_SESSION['__userData']=NULL;
     if (isset($_POST["username"]) && isset($_POST["password"])) {
       login($_POST["username"], $_POST["password"]);  
     }
@@ -51,8 +51,8 @@
       <label for="password"><b>Парола</b></label>
       <input type="password" placeholder="Въведи парола" name="password" required>
         
-      <!-- Hack: set width to 50% and align the buttons on the same line -->
-      <button type="submit">Вход</button><button type="reset" class="cancelbtn">Отказ</button>
+      <button type="submit">Вход</button>
+      <a href="../register" type="reset" class="registerbtn">Регистрация</a>
     </div>
     </div>
   </form>
