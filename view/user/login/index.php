@@ -16,7 +16,7 @@
   </script>
   <?php
 
-      require_once "authenticator.php";
+    require_once "authenticator.php";
 
     function login($username, $password) {
       $authenticator=new Authenticator($username, $password);
@@ -25,7 +25,7 @@
         $_SESSION["__userData"]=$authenticator->getUser();
         # redirect to home page
         echo '<script type="text/javascript">
-                window.location = "../home"
+                window.location = "../"
              </script>';
       } else {
         # create div with error message which will be closed after 5 seconds
@@ -34,6 +34,7 @@
     }
 
     # if the user access this page unlog it
+    session_start();
     $_SESSION["__userData"]=NULL;
     if (isset($_POST["username"]) && isset($_POST["password"])) {
       login($_POST["username"], $_POST["password"]);  
