@@ -26,14 +26,20 @@
 
 		function renderPage($pageId) {
 			$file='pages/' . $pageId . ".php";
-			if (!file_exists($file)) {
+			if (strpos($pageId, ".") !== false || !file_exists($file)) {
 				renderError();
 			} else {
 			  	require_once($file); 
 			}
 		}
 
+		function getRole($session) {
+		    $userData=$session['__userData'];	
+		    return $userData->getRole();
+		}
+
 		validateUser();
+
 	?>
 
 	<div class="container">
@@ -45,7 +51,7 @@
 				if (isset($_GET['page'])) {
 					renderPage($_GET['page']);
 				} else {
-					renderPage('homeworks'); // Default page
+					renderPage('homework/view'); // Default page
 				}
 			?>
 		</div>

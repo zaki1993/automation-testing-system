@@ -7,22 +7,28 @@
   </head>
 <body>
 <?php
-
-  function getRole($session) {
-
-    $userData=$session['__userData'];	
-    return $userData->getRole();
-  }
+  $userRole=getRole($_SESSION);
 ?>
 <div class="topnav">
   <?php
-    $userRole=getRole($_SESSION);
     if($userRole === "admin") {
       echo '<a href="?page=admin/config" class="nav-link">Конфигурация</a>';
       echo '<a href="?page=admin/users" class="nav-link">Потребители</a>';
     }
   ?>
-  <a href="?page=homeworks" class="nav-link">Домашни</a>
+  <div class="dropdown">
+    <button class="dropbtn">Домашни 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <?php 
+        if($userRole === "admin") {
+          echo '<a href="?page=homework/upload">Качи домашно</a>';
+        }
+      ?>
+      <a href="?page=homework/view">Преглед на домашните</a>
+    </div>
+  </div> 
   <a href="./login" class="nav-link logout-btn">Изход</a>
 </div>
 </body>
