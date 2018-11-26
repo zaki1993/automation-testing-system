@@ -21,9 +21,8 @@
 			return $password===$confirmPassword;
 		}
 
+		// TODO: catch die() message from db
 		private function insertUser($username, $facultyNumber, $password) {
-							echo "INSERT INTO User VALUES(${username}, ${facultyNumber}, ${password});";
-
 			$dbConn=new Dao();
 			$dbConn->executeInsert('INSERT INTO User VALUES(?, ?, ?);', [$username, $facultyNumber, $password]);
 			$dbConn->executeInsert('INSERT INTO User_Roles VALUES(?, ?);', [$username, "user"]);

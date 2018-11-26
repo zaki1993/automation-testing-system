@@ -16,13 +16,11 @@
 		}
 
 		public function executeInsert($query, $values) {
-			if ($query != NULL) {
-				if ($values != NULL) {
-					$stmt=$this->conn->prepare($query);
-					$stmt->execute($values) or die('Failed to execute insert..!');
-				} else {
-					$this->conn->query($query) or die ('Failed to execute insert..!');
-				}
+			if ($values != NULL) {
+				$stmt=$this->conn->prepare($query);
+				$stmt->execute($values) or die('Failed to execute insert..!');
+			} else {
+				$this->conn->query($query) or die ('Failed to execute insert..!');
 			}
 		}
 

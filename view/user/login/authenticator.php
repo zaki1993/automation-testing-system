@@ -15,7 +15,7 @@
 
 		public function login($username, $password) {
 			$dbConn=new Dao();
-			$rawUserData=$dbConn->executeQuery("SELECT u.user_name, u.faculty_number, u.password, ur.role_name FROM User u, User_Roles ur WHERE u.user_name=?", [$username]);
+			$rawUserData=$dbConn->executeQuery("SELECT u.user_name, u.faculty_number, u.password, ur.role_name FROM User u INNER JOIN User_Roles ur ON u.user_name = ur.user_name WHERE u.user_name = ?;", [$username]);
 			if($rawUserData!=NULL && !empty($rawUserData)) {
 				$userDataRow=$rawUserData[0];
 				$this->userData=new UserData($userDataRow, $password);

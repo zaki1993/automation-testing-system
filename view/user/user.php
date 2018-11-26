@@ -6,6 +6,7 @@
 		private $isAuthenticated;
 
 		public function __construct($userDataRow, $password) {
+
 			if ($userDataRow!=NULL) {
 				$isAuthenticated=$this->__login($password, $userDataRow["password"]);
 				if($isAuthenticated) {

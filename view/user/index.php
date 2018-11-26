@@ -11,10 +11,24 @@
 		}
 	}
 
+	function renderPage($pageId) {
+		$file='pages/' . $pageId . ".php";
+		if (!file_exists($file)) {
+		  $error404=__DIR__ . "/../error_404.png";
+		  echo "<html><body><img src=\"{$error404}\"></img></body></html>";
+		}
+		else {
+		  require_once($file); 
+		}
+	}
+
 	validateUser();
-	require_once "main/navbar.php";
-	
-	#$userData=$_SESSION['__userData'];
-	#echo $userData->getRole();
+	require_once "navbar.php";
+
+	if (isset($_GET['page'])) {
+		renderPage($_GET['page']);
+	} else {
+		renderPage('homeworks'); // Default page
+	}
 
 ?>
