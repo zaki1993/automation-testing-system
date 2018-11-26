@@ -3,24 +3,18 @@
 		private $username;
 		private $faculcyNumber;
 		private $role;
-		private $isAuthenticated;
 
-		public function __construct($userDataRow, $password) {
+		public function __construct($userDataRow) {
 
 			if ($userDataRow!=NULL) {
-				$isAuthenticated=$this->__login($password, $userDataRow["password"]);
-				if($isAuthenticated) {
-					$this->username=$userDataRow["user_name"];
-					$this->faculcyNumber=$userDataRow["faculty_number"];
-					$this->role=$userDataRow["role_name"];
-					$this->isAuthenticated=true;
-				} else {
-					$this->isAuthenticated=false;
-				}
+				$this->username=$userDataRow["user_name"];
+				$this->faculcyNumber=$userDataRow["faculty_number"];
+				$this->role=$userDataRow["role_name"];
+				$this->isAuthenticated=true;
 			}
 		}
 
-		private function __login($candidatePass, $pass) {
+		public function __login($candidatePass, $pass) {
 			return password_verify($candidatePass, $pass);
 		}
 
@@ -28,7 +22,7 @@
 			return $this->username;
 		}
 
-		public function getFaculcyNumber() {
+		public function getFacultyNumber() {
 			return $this->faculcyNumber;
 		}
 
