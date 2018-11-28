@@ -34,3 +34,40 @@ tr:nth-child(odd) {
     background-color: #F0FFF0;
 }
 
+input[type=file], input[type=date] {
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+
+.homework-content {
+    padding: 20px;
+}
+
+.assignment-content {
+    background-color: #FAF0E6;
+    height: 700px;
+    width: 80%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.homework-content h1 {
+    margin-left: 10%;
+}
+
+.upload-homework {
+    padding: 5%;
+}
+
+.upload-homework input {
+    display: block;
+}
+
+#upload-failed {
+    padding: 2%;
+    color: red;
+}

@@ -25,7 +25,7 @@
         $_SESSION['__userData']=$authenticator->getUser();
         # redirect to home page
         echo '<script type="text/javascript">
-                window.location = "../"
+                window.location = "../../../"
              </script>';
       } else {
         # create div with error message which will be closed after 5 seconds

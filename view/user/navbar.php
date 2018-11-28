@@ -3,7 +3,7 @@
   <head>  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../style/navbar.css">
+    <link rel="stylesheet" type="text/css" href="view/style/navbar.css">
   </head>
 <body>
 <?php
@@ -29,7 +29,7 @@
       <a href="?page=homework/view">Преглед на домашните</a>
     </div>
   </div> 
-  <a href="./login" class="nav-link logout-btn">Изход</a>
+  <a href="view/user/login" class="nav-link logout-btn">Изход</a>
 </div>
 </body>
 </html>
