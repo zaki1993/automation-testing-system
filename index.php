@@ -56,8 +56,11 @@
 				if (isset($_GET['page'])) {
 					renderPage($_GET['page']);
 				} else {
-					# if there is no page property but there are no other properties then render homeworks page
-					renderPage('homework/view'); // Default page
+					# if there is no page property but there are no other properties then forward
+					# to homework/view page
+					echo '<script type="text/javascript">
+			                window.location = "./?page=homework/view";
+			             </script>';
 				}
 			?>
 		</div>
