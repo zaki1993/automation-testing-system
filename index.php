@@ -24,12 +24,17 @@
 			displayError("view/");
 		}
 
-		function renderPage($pageId) {
+		function validatePage($pageId) {
 			$file='view/user/pages/' . $pageId . ".php";
-			if (strpos($pageId, ".") !== false || !file_exists($file)) {
+			return strpos($pageId, ".") !== false || !file_exists($file);
+		}
+
+		function renderPage($pageId) {
+			
+			if (validatePage($pageId)) {
 				renderError();
 			} else {
-			  	require_once($file); 
+			  	require_once('view/user/pages/' . $pageId . '.php'); 
 			}
 		}
 
@@ -51,6 +56,7 @@
 				if (isset($_GET['page'])) {
 					renderPage($_GET['page']);
 				} else {
+					# if there is no page property but there are no other properties then render homeworks page
 					renderPage('homework/view'); // Default page
 				}
 			?>

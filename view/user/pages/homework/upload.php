@@ -47,9 +47,9 @@
 			$result = move_uploaded_file($tmpFile, $newFile);
 		}
 
-		function insertHomeworkInDB($homeworkId, $startDate, $endDate) {
+		function insertHomeworkInDB($homeworkId, $title, $startDate, $endDate) {
 			$homeworkDao=new Dao();
-			$homeworkDao->executeInsert('INSERT INTO Homework(folder, start_date, end_date) VALUES(?, ?, ?);', [$homeworkId, $startDate, $endDate]);
+			$homeworkDao->executeInsert('INSERT INTO Homework(title, folder, start_date, end_date) VALUES(?, ?, ?, ?);', [$title, $homeworkId, $startDate, $endDate]);
 		}
 
 		function checkForHomeworkUpload() {
@@ -62,10 +62,11 @@
 						uploadFile('homework-tests', $homeworkId, NULL);
 					}
 
+					$title=$_POST['homework-title'];
 					$startDate=$_POST['homework-start-date'];
 					$endDate=$_POST['homework-end-date'];
 
-					insertHomeworkInDB($homeworkId, $startDate, $endDate);
+					insertHomeworkInDB($homeworkId, $title, $startDate, $endDate);
 
 			        echo "<script type=\"text/javascript\">
 					        window.location = \"./?page=homework/view&id=${homeworkId}\"
@@ -85,6 +86,9 @@
 		<form action="" method="POST" enctype="multipart/form-data">
 			<label for="homework-assignmentm"><b>Уловие: </b></label>
 			<input type="file" name="homework-assignment" required/>
+
+			<label for="homework-title"><b>Заглавие: </b></label>
+			<input type="text" name="homework-title" required/>
 
 			<label for="homework-tests"><b>Тестове: </b></label>
 			<input type="file" name="homework-tests"/>

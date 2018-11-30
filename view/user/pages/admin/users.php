@@ -31,6 +31,7 @@
 		}
 
 		function displayUserData($usersData) {
+			echo '<div class="all-users">';
 			echo '<table>';
 			echo '<tr>
 					<th>Номер</th>
@@ -45,9 +46,9 @@
 				echo '<td>' . $userData->getFacultyNumber() . '</td>';
 				echo '<td>' . $userData->getRole() . '</td>';
 				echo '</tr>';
-				//echo $userData->getUsername();
 			}
 			echo '</table>';
+			echo '</div>';
 		}
 	?>
 	<div class="users-content">

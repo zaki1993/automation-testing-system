@@ -34,7 +34,7 @@ tr:nth-child(odd) {
     background-color: #F0FFF0;
 }
 
-input[type=file], input[type=date] {
+input[type=file], input[type=date], input[type="text"] {
     padding: 12px 20px;
     margin: 8px 0;
 }
@@ -70,4 +70,17 @@ input[type=file], input[type=date] {
 #upload-failed {
     padding: 2%;
     color: red;
+}
+
+.all-homeworks-content {
+    padding: 5%;
+}
+
+.all-homeworks-content a  {
+    text-decoration: none;
+    color: blue;
+}
+
+.all-users {
+    padding: 5%;
 }

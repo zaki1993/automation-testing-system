@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS User_Roles (
 
 CREATE TABLE IF NOT EXISTS Homework (
 	id int PRIMARY KEY AUTO_INCREMENT,
+	title varchar(200),
 	folder varchar(200),
 	start_date date, 
 	end_date date

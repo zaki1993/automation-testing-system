@@ -5,16 +5,16 @@
 </head>
 <body>
 	<?php
-		function getHomeworkId() {
-			if (isset($_GET['id'])) {
-				return $_GET['id'];
+
+		function checkPageForErrors() {
+			if(!isset($_GET['page'])) {
+				renderError();
 			}
 		}
 
-		$homeworkId=getHomeworkId();
-		if ($homeworkId!=NULL) {
-			if (!file_exists("view/homeworks/" . $homeworkId)) {
-				renderError();
+		function getHomeworkId() {
+			if (isset($_GET['id'])) {
+				return $_GET['id'];
 			}
 		}
 
@@ -28,7 +28,32 @@
 		}
 
 		function renderAllHomeworks() {
-
+			$homeworkDao=new Dao();
+			$homeworks=$homeworkDao->executeSelect('Homework', NULL, NULL);
+			echo '<div class="all-homeworks-content">';
+			echo '<h2>Достъпни домашни работи</h2>';
+			echo '<table>';
+			echo '<tr>
+					<th>Номер</th>
+				    <th>Заглавие</th>
+				    <th>Начална дата</th>
+				    <th>Крайна дата</th>
+				  </tr>';
+			foreach($homeworks as $homework) {
+				$homeworkId=$homework['folder'];
+				$homeworkName=$homework['title'];
+				$id=$homework['id'];
+				$startDate=$homework['start_date'];
+				$endDate=$homework['end_date'];
+				echo '<tr>';
+				echo "<td>${id}</td>";
+				echo "<td><a href=\"?page=homework/view&id=${homeworkId}\"><b>${homeworkName}</b></a></td>";
+				echo "<td>${startDate}</td>";
+				echo "<td>${endDate}</td>";
+				echo '</tr>';
+			}
+			echo '</table>';
+			echo '</div>';
 		}
 
 		function getHomeworkAssignment($homeworkId) {
@@ -38,6 +63,15 @@
 				renderHomework($assignment);
 			} else {
 				renderAllHomeworks();
+			}
+		}
+
+		# Initial page validation
+		checkPageForErrors();
+		$homeworkId=getHomeworkId();
+		if ($homeworkId!=NULL) {
+			if (!file_exists("view/homeworks/" . $homeworkId)) {
+				renderError();
 			}
 		}
 	?>	
