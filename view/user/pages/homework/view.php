@@ -18,6 +18,12 @@
 			}
 		}
 
+		function checkDBRecord($homeworkId) {
+			$homeworkDao=new Dao();
+			$result=$homeworkDao->executeSelect('Homework', ['folder'], [$homeworkId]);
+			return count($result);
+		}
+
 		function renderHomework($assignment) {
 			echo '<div class="homework-content">';
 			echo '<h1>Условие: </h1>';
@@ -56,11 +62,15 @@
 			echo '</div>';
 		}
 
-		function getHomeworkAssignment($homeworkId) {
+		function renderPageContent($homeworkId) {
 			$files = glob("view/homeworks/${homeworkId}/assignment.*");
 			if(count($files) > 0) {
 				$assignment=$files[0];
-				renderHomework($assignment);
+				if (checkDBRecord($homeworkId) > 0) {
+					renderHomework($assignment);
+				} else {
+					renderError();
+				}
 			} else {
 				renderAllHomeworks();
 			}
@@ -75,6 +85,6 @@
 			}
 		}
 	?>	
-	<?php getHomeworkAssignment($homeworkId); ?>
+	<?php renderPageContent($homeworkId); ?>
 </body>
 </html>
