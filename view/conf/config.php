@@ -6,12 +6,12 @@
 
 		public function __construct() {
 			$this->__init();
-			$xml=@simplexml_load_file(__DIR__."/config.xml") or die("Could not load configuration..!");
+			$xml=@simplexml_load_file("view/conf/config.xml") or die("Could not load configuration..!");
 			$this->__parseXml($xml);
 		}
 
 		private function __init() {
-			require_once __DIR__."/../pojo/module.php";
+			require_once "view/pojo/module.php";
 
 			$this->modules=array();
 		}
@@ -23,6 +23,7 @@
 				# push with module name for easier looping later
 				$this->modules[(string)$module->getName()]=$module;
 			}
+			echo "OK de";
 		}
 
 		public function getModules() {

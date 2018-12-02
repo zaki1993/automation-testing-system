@@ -6,9 +6,8 @@
 		private $executables;
 
 		public function __construct($moduleXml) {
-
 			$this->__init();
-			$this->name=$moduleXml->Name;
+			$this->name=(string)$moduleXml->Name;
 			foreach($moduleXml->Executables->Executable as $executableXml) {
 				$executable=new Executable($executableXml);
 				array_push($this->executables, $executable);

@@ -6,8 +6,8 @@
 		private $path;
 
 		public function __construct($runnableXml) {
-			$this->version=$runnableXml->Version;
-			$this->path=$runnableXml->Path;
+			$this->version=(string)$runnableXml->Version;
+			$this->path=(string)$runnableXml->Path;
 		}
 
 		public function getVersion() {

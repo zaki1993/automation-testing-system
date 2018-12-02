@@ -1,7 +1,7 @@
 <Configuration>
 	<Modules>
 		<Module>
-			<Name>Java</Name>
+			<Name>java</Name>
 			<Executables>
 				<Executable>
 					<Compiler>
@@ -12,30 +12,6 @@
 						<Version>1.8.0_191</Version>
 						<Path>/usr/bin/java</Path>
 					</Runtime>
-				</Executable>
-			</Executables>
-		</Module>
-		<Module>
-			<Name>C++</Name>
-			<Executables>
-				<Executable>
-					<Compiler>
-						<Version>Ubuntu 5.4.0-6ubuntu1~16.04.10</Version>
-						<Path>/usr/bin/c++</Path>
-					</Compiler>
-					<Runtime/>
-				</Executable>
-			</Executables>
-		</Module>
-		<Module>
-			<Name>C</Name>
-			<Executables>
-				<Executable>
-					<Compiler>
-						<Version>Ubuntu 5.4.0-6ubuntu1~16.04.10</Version>
-						<Path>/usr/bin/gcc</Path>
-					</Compiler>
-					<Runtime/>
 				</Executable>
 			</Executables>
 		</Module>

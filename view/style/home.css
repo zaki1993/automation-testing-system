@@ -1,17 +1,19 @@
 body {
 	margin: 0;
-	padding: 0;
+	padding: 0;    
+    background-color: #c2c2c2;
 }
 
 .container {
 	padding-left: 10%;
 	padding-right: 10%;
-	background-color: #c2c2c2;
+    min-height: 100vh;
 }
 
 .main {
-	height: 100vh;
 	background-color: #ffffff;
+    min-height: 100vh;
+    padding-bottom: 2.5%;
 }
 
 table {
@@ -39,24 +41,15 @@ input[type=file], input[type=date], input[type="text"] {
     margin: 8px 0;
 }
 
-.homework-content {
-    padding: 20px;
-}
-
 .assignment-content {
     background-color: #FAF0E6;
     height: 700px;
-    width: 80%;
+    width: 72%;
     padding: 15px;
     border: 1px solid #ccc;
     box-sizing: border-box;
     overflow-y: scroll;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.homework-content h1 {
-    margin-left: 10%;
+    display: inline-block;
 }
 
 .upload-homework {
@@ -72,15 +65,31 @@ input[type=file], input[type=date], input[type="text"] {
     color: red;
 }
 
-.all-homeworks-content {
+.homeworks-page {
     padding: 5%;
 }
 
-.all-homeworks-content a  {
+.homeworks-page  a  {
     text-decoration: none;
     color: blue;
 }
 
 .all-users {
     padding: 5%;
+}
+
+.homework-info {
+    float: left;
+    margin-right: 27px;
+    background-color: #FAF0E6;
+    height: 700px;
+    width: 25%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+h4 {
+    display: inline;
 }
