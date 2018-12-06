@@ -32,10 +32,8 @@
 	<?php
 		function insertHomeworkInDB($homeworkId, $title, $startDate, $endDate, $language) {
 			$homeworkDao=new Dao();
-			$homeworkDao->executeInsert('INSERT INTO Homework(title, folder, start_date, end_date) VALUES(?, ?, ?, ?);', [$title, $homeworkId, $startDate, $endDate]);
-			$connection=$homeworkDao->getConnection();
-			$hwId=$connection->lastInsertId();
-			$homeworkDao->executeInsert('INSERT INTO Homework_Language(id, name) VALUES(?, ?);', [$hwId, $language]);
+			$homeworkDao->executeInsert('INSERT INTO Homework(folder, title, start_date, end_date) VALUES(?, ?, ?, ?);', [$homeworkId, $title, $startDate, $endDate]);
+			$homeworkDao->executeInsert('INSERT INTO Homework_Language(folder, name) VALUES(?, ?);', [$homeworkId, $language]);
 		}
 
 		function checkForHomeworkUpload() {
@@ -44,8 +42,14 @@
 				try {
 					uploadHomeworkFile('homework-assignment', '/', 'assignment', $homeworkId, ["txt"]);
 
+					$title=$_POST['homework-title'];
+					$startDate=$_POST['homework-start-date'];
+					$endDate=$_POST['homework-end-date'];
+					$language=$_POST['homework-language'];
+
 					if (isset($_FILES['homework-tests'])) {
 						uploadHomeworkFile('homework-tests', '/hw_tests/', 'tests', $homeworkId, ["zip"]);
+
 						# create shell instance in order to execute shell scripts directly
 						$shell=new Shell();
 						# unzip tests.zip file
@@ -55,20 +59,13 @@
 						$shell->execute("rm ${path}/tests.zip");
 					}
 
-					$title=$_POST['homework-title'];
-					$startDate=$_POST['homework-start-date'];
-					$endDate=$_POST['homework-end-date'];
-					$language=$_POST['homework-language'];
-
 					insertHomeworkInDB($homeworkId, $title, $startDate, $endDate, $language);
 
 			        echo "<script type=\"text/javascript\">
 					        window.location = \"./?page=homework/view&id=${homeworkId}\"
 					     </script>";
 				} catch (Exception $e) {
-					echo '<div id="upload-failed">';
-					echo '<h2>' . $e->getMessage() . '</h2>';
-					echo '</div>';
+					echo getErrorBlock($e->getMessage());
 				}
 			}
 		}

@@ -75,6 +75,12 @@
 			}
 		}
 
+		function getErrorBlock($msg) {
+			return "<div id=\"upload-failed\">
+				   <h2>${msg}</h2>;
+				   </div>";
+		}
+
 		function renderError() {
 			$error404="view/error.php";
 			require_once($error404);

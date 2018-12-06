@@ -68,7 +68,7 @@
 
 		function checkHomeworkDBRecord($homeworkId) {
 			$homeworkDao=new Dao();
-			$dbResult=$homeworkDao->executeQuery('SELECT hw.id, hw.title, hw.start_date, hw.end_date, hwl.name as language FROM Homework hw INNER JOIN Homework_Language hwl ON hw.id = hwl.id WHERE hw.folder=?;', [$homeworkId]);
+			$dbResult=$homeworkDao->executeQuery('SELECT hw.title, hw.start_date, hw.end_date, hwl.name as language FROM Homework hw INNER JOIN Homework_Language hwl ON hw.folder = hwl.folder WHERE hw.folder=?;', [$homeworkId]);
 			
 			$result=count($dbResult) > 0;
 
@@ -101,16 +101,16 @@
 
 			echo '<div>
 				 	<form method="POST" action="" enctype="multipart/form-data">
-						<label for="homework-submition"><b>Качи домашно: </b></label>
+						<label for="homework-submition"><b>Качи тестове: </b></label>
 						<input id="hw-user-tests" type="file" name="homework-submition" required/>
-						<input type="submit" value="Качи домашно"/>
+						<input type="submit" value="Качи тестове" id="submit-tests"/>
 					</form>
 				  </div>';
 		}
 
 		function renderAllHomeworks() {
 			$homeworkDao=new Dao();
-			$homeworks=$homeworkDao->executeQuery('SELECT hw.*, hwl.name as language FROM Homework hw INNER JOIN Homework_Language hwl ON hw.id = hwl.id;', NULL);
+			$homeworks=$homeworkDao->executeQuery('SELECT hw.*, hwl.name as language FROM Homework hw INNER JOIN Homework_Language hwl ON hw.folder = hwl.folder;', NULL);
 
 			echo '<h2>Достъпни домашни работи</h2>';
 			echo '<table>';
@@ -121,15 +121,14 @@
 				    <th>Крайна дата</th>
 				    <th>Програмен език</th>
 				  </tr>';
-			foreach($homeworks as $homework) {
+			foreach($homeworks as $key=>$homework) {
 				$homeworkId=$homework['folder'];
 				$homeworkName=$homework['title'];
-				$id=$homework['id'];
 				$startDate=$homework['start_date'];
 				$endDate=$homework['end_date'];
 				$language=$homework['language'];
 				echo '<tr>';
-				echo "<td>${id}</td>";
+				echo "<td>${key}</td>";
 				echo "<td><a href=\"?page=homework/view&id=${homeworkId}\"><b>${homeworkName}</b></a></td>";
 				echo "<td>${startDate}</td>";
 				echo "<td>${endDate}</td>";
@@ -144,12 +143,19 @@
 			if(count($files) > 0) {
 				$assignment=$files[0];
 				if (checkHomeworkDBRecord($homeworkId)) {
+					echo "<div class=\"homeworks-page\">";
 					renderHomework($assignment);
+					checkForUpload($homeworkId);
+					echo "</div>";
 				} else {
-					renderError();
+					throw new Exception("");
 				}
+			} else if($homeworkId!=NULL) {
+				throw new Exception("");
 			} else {
+				echo "<div class=\"homeworks-page\">";
 				renderAllHomeworks();
+				echo "</div>";
 			}
 		}
 
@@ -160,7 +166,7 @@
 			require_once "tests/base_tests_runner.php";
 			require_once "tests/${language}/tests_runner.php";
 			$testsRunner=new TestRunner("view/homeworks/${homeworkId}/hw_tests/tests", $path . "/tests");
-			$testsRunner->run();
+			return $testsRunner->run();
 		}
 
 		function uploadSolution($extension, $homeworkId) {
@@ -170,17 +176,41 @@
 
 			try {
 				uploadHomeworkFile('homework-submition', "/user_tests/${username}/", 'tests', $homeworkId, ["zip"]);
-				$shell=new Shell();
-				# unzip tests.zip file
+
 				$path="view/homeworks/${homeworkId}/user_tests/${username}";
+
+				$shell=new Shell();	
+
+				# delete everything in the user_tests folder
+				# in case that the folder was already there
+				# meaning that the user wants to execute new tests
+				$shell->execute("rm ${path}/tests/* -rd");
+
+				# unzip tests.zip file
 				$shell->execute("unzip ${path}/tests.zip -d ${path}/tests");
 				# remove tests.zip file
 				$shell->execute("rm ${path}/tests.zip");
-				runTests($path, $homeworkId);
+				$successTests=runTests($path, $homeworkId);
+				insertUserTestResults($username, $homeworkId, $successTests);
 			} catch (Exception $e) {
-				echo '<div id="upload-failed">';
-				echo '<h2>' . $e->getMessage() . '</h2>';
-				echo '</div>';
+				echo getErrorBlock($e->getMessage());
+			}
+		}
+
+		function insertUserTestResults($username, $homeworkId, $successTests) {
+			$userTestsDao=new Dao();
+			$userCurrentTests=$userTestsDao->executeQuery("SELECT uh.score FROM User_Homework uh WHERE uh.user_name=? AND uh.folder=?;", [$username, $homeworkId]);
+
+			$score;
+			if (count($userCurrentTests) > 0) {
+				$score=$userCurrentTests[0]['score'];
+			} else {
+				$score=-1;
+			}
+			if ($score==-1 && $score < $successTests) {
+				$userTestsDao->executeInsert("INSERT INTO User_Homework(folder, user_name, score) VALUES(?, ?, ?);", [$homeworkId, $username, $successTests]);
+			} else if ($score!=-1 && $score < $successTests) {
+				$userTestsDao->executeQuery("UPDATE User_Homework SET score=? WHERE folder=? AND user_name=?;", [$successTests, $homeworkId, $username]);
 			}
 		}
 
@@ -197,9 +227,7 @@
 						try {
 							uploadSolution($extension, $homeworkId);
 						} catch (Exception $e) {
-							echo '<div id="upload-failed">';
-							echo '<h2>' . $e->getMessage() . '</h2>';
-							echo '</div>';
+							echo getErrorBlock($e->getMessage());
 						}
 					}
 				}
@@ -213,12 +241,13 @@
 		checkPageForErrors();
 	?>
 	
-	<div class="homeworks-page">
-		<?php 
+	<?php 
+		try {	
 			$homeworkId=getHomeworkId();
 			renderPageContent($homeworkId);
-			checkForUpload($homeworkId);
-		?>
-	</div>
+		} catch(Exception $e) {
+			renderError();
+		}
+	?>
 </body>
 </html>

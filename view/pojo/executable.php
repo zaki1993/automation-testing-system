@@ -20,7 +20,7 @@
 		}
 
 		public function getRuntime() {
-			return $this->compiler;
+			return $this->runtime;
 		}
 	}
 ?>

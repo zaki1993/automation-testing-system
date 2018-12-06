@@ -29,6 +29,7 @@
       <a href="?page=homework/view">Преглед на домашните</a>
     </div>
   </div> 
+  <a href="?page=rating" class="nav-link">Класация</a>
   <a href="view/user/login" class="nav-link logout-btn">Изход</a>
 </div>
 </body>

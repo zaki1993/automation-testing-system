@@ -24,9 +24,8 @@ CREATE TABLE IF NOT EXISTS User_Roles (
 );
 
 CREATE TABLE IF NOT EXISTS Homework (
-	id int PRIMARY KEY AUTO_INCREMENT,
+	folder varchar(200) PRIMARY KEY,
 	title varchar(200) NOT NULL,
-	folder varchar(200) UNIQUE,
 	start_date date  NOT NULL, 
 	end_date date  NOT NULL
 );
@@ -36,19 +35,19 @@ CREATE TABLE IF NOT EXISTS Language (
 );
 
 CREATE TABLE IF NOT EXISTS Homework_Language (
-	id int,
+	folder varchar(200),
 	name varchar(255),
-	PRIMARY KEY (id, name),
-	FOREIGN KEY (id) REFERENCES Homework(id),
+	PRIMARY KEY (folder, name),
+	FOREIGN KEY (folder) REFERENCES Homework(folder),
 	FOREIGN KEY (name) REFERENCES Language(name)
 );
 
 CREATE TABLE IF NOT EXISTS User_Homework (
-	id int,
+	folder varchar(200),
 	user_name varchar(255),
 	score int NOT NULL,
-	PRIMARY KEY (id, user_name),
-	FOREIGN KEY (id) REFERENCES Homework(id),
+	PRIMARY KEY (folder, user_name),
+	FOREIGN KEY (folder) REFERENCES Homework(folder),
 	FOREIGN KEY (user_name) REFERENCES User(user_name)
 );
 

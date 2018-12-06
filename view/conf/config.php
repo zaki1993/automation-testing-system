@@ -23,7 +23,6 @@
 				# push with module name for easier looping later
 				$this->modules[(string)$module->getName()]=$module;
 			}
-			echo "OK de";
 		}
 
 		public function getModules() {
