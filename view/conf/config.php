@@ -30,7 +30,10 @@
 		}
 
 		public function getModuleByName($name) {
-			return $this->modules[$name];
+			if (array_key_exists($name, $this->modules)) {
+				return $this->modules[$name];
+			}
+			throw new Exception("Unfortunately " . $name . " is not configured yet!");
 		}
 	}
 ?>

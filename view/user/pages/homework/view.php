@@ -160,7 +160,7 @@
 		$homework=getHomework();
 		$language=$homework->getLanguage();
 		require_once "tests/base_tests_runner.php";
-		require_once "tests/${language}/tests_runner.php";
+		require_once "tests/${language}/tests_runner.php";	
 		$testsRunner=new TestRunner("view/homeworks/${homeworkId}/hw_tests/tests", $path . "/tests");
 		return $testsRunner->run();
 	}

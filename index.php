@@ -77,7 +77,7 @@
 
 		function getErrorBlock($msg) {
 			return "<div id=\"upload-failed\">
-				   <h2><pre>${msg}</pre></h2>;
+				   <h2><pre>${msg}</pre></h2>
 				   </div>";
 		}
 
