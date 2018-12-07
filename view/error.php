@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>404 Not Found</title>
-</head>
 <style type="text/css">
 	img {
 		width: 100%;
@@ -11,11 +6,8 @@
 		margin: 0;
 	}
 </style>
-<body>
-	<?php 
-		function displayError($path) {
-			echo "<img src=\"${path}/resources/error_404.png\"/>";
-		}
-	?>
-</body>
-</html>
+<?php 
+	function displayError($path) {
+		echo "<img src=\"${path}/resources/error_404.png\"/>";
+	}
+?>

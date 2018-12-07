@@ -2,7 +2,9 @@
 <html>
 <head>
 	<title>Начална страница</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="view/style/home.css">
+    <link rel="stylesheet" type="text/css" href="view/style/navbar.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -35,13 +37,6 @@
 			
 			$newFile = "view/homeworks/${homeworkId}${path}${sytemFileName}.${extension}";
 			return move_uploaded_file($tmpFile, $newFile);
-		}
-
-		function validatePermission() {
-			$userRole=getRole($_SESSION);
-			if ($userRole!=="admin") {
-				throw new Exception("Access is denied..!");
-			}
 		}
 
 		function validateExtension($extension, $extensions) {
@@ -97,16 +92,37 @@
 			if (validatePage($pageId)) {
 				renderError();
 			} else {
-			  	require_once('view/user/pages/' . $pageId . '.php'); 
-			  	echo "<div class=\"main-container\">";
+			  	include('view/user/pages/' . $pageId . '.php');
+
+			  	# each page will have function called render
+			  	# which will be invoked from here and the
+			  	# main functionality in that particular screen 
+			  	# shoud start from there
+			  	ob_start();
 				render();
-				echo "</div>";
+				$renderResult=ob_get_contents();
+				ob_end_clean();
+
+			  	echo "<div class=\"main-container\">
+				      	${renderResult}
+				      </div>";
 			}
 		}
 
+		function validatePermission() {
+			$userRole=getRole($_SESSION);
+			if ($userRole!=="admin") {
+				throw new Exception();
+			}
+		}
+	
 		function getRole($session) {
-		    $userData=$session['__userData'];	
-		    return $userData->getRole();
+			if (isset($session['__userData'])) {
+			    $userData=$session['__userData'];	
+			    return $userData->getRole();
+			}
+			# default user role
+			return 'user';
 		}
 
 		function getProgrammingLanguages() {

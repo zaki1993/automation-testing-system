@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>  
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="view/style/navbar.css">
-  </head>
-<body>
 <?php
   $userRole=getRole($_SESSION);
 ?>
@@ -22,5 +14,3 @@
 
   <a href="view/user/login" class="nav-link logout-btn">Изход</a>
 </div>
-</body>
-</html>

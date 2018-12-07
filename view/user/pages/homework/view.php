@@ -223,12 +223,8 @@
 	}
 
 	function render() {
-		try {	
-			checkPageForErrors();
-			$homeworkId=getHomeworkId();
-			renderPageContent($homeworkId);
-		} catch(Exception $e) {
-			renderError();
-		}
+		checkPageForErrors();
+		$homeworkId=getHomeworkId();
+		renderPageContent($homeworkId);
 	}
 ?>

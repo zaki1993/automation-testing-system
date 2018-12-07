@@ -95,3 +95,9 @@ h4 {
     width: 20px;
     height: 20px;
 }
+
+.module {
+    background-color: #FAF0E6;
+    padding: 15px;
+    margin-bottom: 5px;
+}

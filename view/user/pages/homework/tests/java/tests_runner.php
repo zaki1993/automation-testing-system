@@ -16,11 +16,9 @@
 		private function __initJava() {
 			$configuration=$_SESSION['configuration'];
 			$modules=$configuration->getModuleByName('java');
-			# assume that we have one defined executable
-			// TODO chose from more than one executable
-			$executable=$modules->getExecutables()[0];
-			$this->jdk=$executable->getCompiler();
-			$this->jre=$executable->getRuntime();
+			$executables=$modules->getExecutables();
+			$this->jdk=$executables[0];
+			$this->jre=$executables[1];
 		}
 
 		# function used to compile java files

@@ -2,25 +2,20 @@
 
 	class Executable {
 
-		private $compiler;
-		private $runtime;
+		private $version;
+		private $path;
 
-		public function __construct($executableXml) {
-			$this->__init();
-			$this->compiler=new Runnable($executableXml->Compiler);
-			$this->runtime=new Runnable($executableXml->Runtime);
+		public function __construct($executebleXml) {
+			$this->version=(string)$executebleXml->Version;
+			$this->path=(string)$executebleXml->Path;
 		}
 
-		private function __init() {
-			require_once "runnable.php";
+		public function getVersion() {
+			return $this->version;
 		}
 
-		public function getCompiler() {
-			return $this->compiler;
-		}
-
-		public function getRuntime() {
-			return $this->runtime;
+		public function getPath() {
+			return $this->path;
 		}
 	}
 ?>

@@ -3,8 +3,7 @@
 	# class that will be used to run php tests
 	class TestRunner extends BaseTestRunner {
 		private $shell;
-		private $jdk;
-		private $jre;
+		private $php;
 
 		public function run() {
 			$this->shell=new Shell();
@@ -14,11 +13,8 @@
 		private function __initPhp() {
 			$configuration=$_SESSION['configuration'];
 			$modules=$configuration->getModuleByName('php');
-			# assume that we have one defined executable
-			// TODO chose from more than one executable
-			$executable=$modules->getExecutables()[0];
-			$this->jdk=$executable->getCompiler();
-			$this->jre=$executable->getRuntime();
+			$executables=$modules->getExecutables();
+			$this->php=$executables[0];
 		}
 	}
 ?>
