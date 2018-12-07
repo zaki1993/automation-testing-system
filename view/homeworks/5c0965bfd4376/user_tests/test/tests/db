@@ -1,0 +1,40 @@
+create database webtechnologies CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+use webtechnologies;
+
+CREATE TABLE Courses (
+    course_name varchar(255) PRIMARY KEY,
+    lecturer varchar(255),
+    description varchar(1000),
+    type varchar(255),
+    class varchar(255),
+    programm varchar(255)
+);
+
+CREATE TABLE Comments (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    content varchar(1000),
+    user varchar(255),
+    comment_date date
+);
+
+CREATE TABLE CoursesComments (
+    course_name varchar(255),
+    comment_id int,
+    PRIMARY KEY(comment_id, course_name),
+    FOREIGN KEY(comment_id) references Comments(id),
+    FOREIGN KEY(course_name) references Courses(course_name)
+);
+
+insert into Courses values('Компютърна графика с WebGL', 'доц. П. Бойчев', 'След завършване на курса студентите ще могат да създават тримерни статични изображения и тримерни анимации', 'задължителен избираем', '1', 'бакалавър');
+insert into Courses values('Програмиране с Go', 'доц. П. Бойчев', 'Lorem Ipsum е елементарен примерен текст, използван в печатарската и типографската индустрия. Lorem Ipsum е индустриален стандарт от около 1500 година, когато неизвестен печатар взема няколко печатарски букви и ги разбърква, за да напечата с тях книга с примерни шрифтове.', 'избираем', '2', 'бакалавър');
+insert into Courses values('Програмиране с Ruby', 'доц. П. Бойчев', 'Lorem Ipsum е елементарен примерен текст, използван в печатарската и типографската индустрия. Lorem Ipsum е индустриален стандарт от около 1500 година, когато неизвестен печатар взема няколко печатарски букви и ги разбърква, за да напечата с тях книга с примерни шрифтове.', 'избираем', '2', 'бакалавър');
+insert into Courses values('Agile', 'доц. П. Бойчев', 'Lorem Ipsum е елементарен примерен текст, използван в печатарската и типографската индустрия. Lorem Ipsum е индустриален стандарт от около 1500 година, когато неизвестен печатар взема няколко печатарски букви и ги разбърква, за да напечата с тях книга с примерни шрифтове.', 'задължителен', '2', 'магистър');
+
+insert into Comments values(1, 'Препоръчвам записването на курса. Интересни неща се учат, има и освобождаване с реферати.', 'Вили Велева', '2015-11-07');
+insert into Comments values(2, 'Препоръчвам записването на курса. Интересни неща се учат, има и освобождаване с реферати.', 'Вили Велева', '2015-11-07');
+insert into Comments values(3, 'Препоръчвам записването на курса. Интересни неща се учат, има и освобождаване с реферати.', 'Вили Велева', '2015-11-07');
+
+insert into CoursesComments values('Компютърна графика с WebGL', 1);
+insert into CoursesComments values('Компютърна графика с WebGL', 2);
+insert into CoursesComments values('Компютърна графика с WebGL', 3);

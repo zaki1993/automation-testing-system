@@ -77,7 +77,7 @@
 
 		function getErrorBlock($msg) {
 			return "<div id=\"upload-failed\">
-				   <h2>${msg}</h2>;
+				   <h2><pre>${msg}</pre></h2>;
 				   </div>";
 		}
 
@@ -98,6 +98,7 @@
 				renderError();
 			} else {
 			  	require_once('view/user/pages/' . $pageId . '.php'); 
+				render();
 			}
 		}
 

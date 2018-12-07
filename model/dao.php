@@ -28,14 +28,15 @@
 			# build the query
 			$query="SELECT * FROM ${table_name}";
 			if ($attributes != NULL && $values != NULL) {
-				$query.=" WHERE ";
+				$query.=" WHERE";
 				foreach ($attributes as $idx=>$attribute) {
-					$query.=" ${attribute} = ?";
+					$query.=" ${attribute}=?";
 					if ($idx < count($attributes) - 1) {
 						$query.=" AND";
 					}
 				}
 			}
+			$query.=";";
 
 			# execute query
 			$stmt=$this->conn->prepare($query);

@@ -14,7 +14,7 @@
 <body>
 	<?php 
 		function displayError($path) {
-			echo "<img src=\"${path}/error_404.png\"/>";
+			echo "<img src=\"${path}/resources/error_404.png\"/>";
 		}
 	?>
 </body>
