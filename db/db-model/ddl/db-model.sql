@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS User_Homework (
 	folder varchar(200),
 	user_name varchar(255),
 	score int NOT NULL,
+	last_test_date date NOT NULL,
 	PRIMARY KEY (folder, user_name),
 	FOREIGN KEY (folder) REFERENCES Homework(folder),
 	FOREIGN KEY (user_name) REFERENCES User(user_name)

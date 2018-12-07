@@ -4,29 +4,29 @@
 
 		if($homework!=NULL) {
 			echo "<table>
-			      	<thead>
 				      <tr>
 				      	<th>Място</th>
 					    <th>Потребител</th>
 					    <th>Точки</th>
-					  </tr>
-					</thead>
-					<tbody>";
+					    <th>Последна промяна</th>
+					  </tr>";
 
 			$homeworkUserDao=new Dao();
-			$userScores=$homeworkUserDao->executeQuery('SELECT user_name, score FROM User_Homework WHERE folder=? ORDER BY score desc;', [$_GET['id']]);
+			$userScores=$homeworkUserDao->executeQuery('SELECT * FROM User_Homework WHERE folder=? ORDER BY score desc;', [$_GET['id']]);
 
 			foreach($userScores as $key=>$userScore) {
 				$username=$userScore['user_name'];
 				$score=$userScore['score'];
 				$number=$key+1;
+				$lastTestDate=$userScore['last_test_date'];
 				echo "<tr>
 					      <td>${number}</td>
 						  <td>${username}</td>
 						  <td>${score}</td>
+						  <td>${lastTestDate}</td>
 					  </tr>";
 			}
-			echo "</tbody></table>";
+			echo "</table>";
 		} else {
 			renderError();
 		}

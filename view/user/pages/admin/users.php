@@ -50,9 +50,10 @@
 			echo '</table>';
 			echo '</div>';
 		}
+
+		function render() {
+			getAllUsers();
+		}
 	?>
-	<div class="users-content">
-		<?php getAllUsers(); ?>
-	</div>
 </body>
 </html>

@@ -51,10 +51,6 @@ input[type=file], input[type=date], input[type="text"] {
     display: inline-block;
 }
 
-.upload-homework {
-    padding: 5%;
-}
-
 .upload-homework input {
     display: block;
 }
@@ -64,17 +60,13 @@ input[type=file], input[type=date], input[type="text"] {
     color: red;
 }
 
-.homeworks-page {
+.main-container  {
     padding: 5%;
 }
 
-.homeworks-page  a  {
+.main-container a {
     text-decoration: none;
     color: blue;
-}
-
-.all-users {
-    padding: 5%;
 }
 
 .homework-info {

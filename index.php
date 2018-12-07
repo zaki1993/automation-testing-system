@@ -98,7 +98,9 @@
 				renderError();
 			} else {
 			  	require_once('view/user/pages/' . $pageId . '.php'); 
+			  	echo "<div class=\"main-container\">";
 				render();
+				echo "</div>";
 			}
 		}
 

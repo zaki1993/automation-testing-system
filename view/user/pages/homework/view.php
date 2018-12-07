@@ -131,7 +131,6 @@
 			$assignment=$files[0];
 			# check if there is rating=true attribute in the URL
 			if (checkHomeworkDBRecord($homeworkId)) {
-				echo "<div class=\"homeworks-page\">";
 				if(getRating()) {
 					# if there is attribute rating=true then render the homework ratings
 					require_once 'rating.php';
@@ -141,7 +140,6 @@
 					renderHomework($assignment);
 					checkForUpload($homeworkId);
 				}
-				echo "</div>";
 			} else {
 				throw new Exception();
 			}
@@ -149,9 +147,7 @@
 			throw new Exception();
 		} else {
 			# if no homework id was specified then render all the homeworks on the page
-			echo "<div class=\"homeworks-page\">";
 			renderAllHomeworks();
-			echo "</div>";
 		}
 	}
 
@@ -200,9 +196,9 @@
 		$score=count($userCurrentTests) > 0 ? $userCurrentTests[0]['score'] : -1;
 
 		if ($score==-1 && $score < $successTests) {
-			$userTestsDao->executeInsert("INSERT INTO User_Homework(folder, user_name, score) VALUES(?, ?, ?);", [$homeworkId, $username, $successTests]);
+			$userTestsDao->executeInsert("INSERT INTO User_Homework(folder, user_name, score, last_test_date) VALUES(?, ?, ?, ?);", [$homeworkId, $username, $successTests, date("Y-m-d")]);
 		} else if ($score!=-1 && $score < $successTests) {
-			$userTestsDao->executeQuery("UPDATE User_Homework SET score=? WHERE folder=? AND user_name=?;", [$successTests, $homeworkId, $username]);
+			$userTestsDao->executeQuery("UPDATE User_Homework SET score=? WHERE folder=? AND user_name=? AND last_test_date=?;", [$successTests, $homeworkId, $username, date("Y-m-d")]);
 		}
 	}
 
