@@ -27,6 +27,14 @@
 		public function getExecutables() {
 			return $this->executables;
 		}
+
+		public function setName($newName) {
+			$this->name=$newName;
+		}
+
+		public function setExecutables($newExecutables) {
+			$this->executables=$newExecutables;
+		}
 	}
 
 ?>

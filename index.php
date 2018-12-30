@@ -39,6 +39,12 @@
 			return move_uploaded_file($tmpFile, $newFile);
 		}
 
+		function refreshPage() {
+			echo '<script type="text/javascript">
+					 window.location = ""
+				  </script>';
+		}
+
 		function validateExtension($extension, $extensions) {
 			if ($extensions!=NULL) {
 				if (!in_array($extension, $extensions)) {
@@ -80,6 +86,17 @@
 			$error404="view/error.php";
 			require_once($error404);
 			displayError("view");
+		}
+
+		function renderErrorAndLog($msg) {
+			logMsg($msg);
+			renderError();
+		}
+
+		function logMsg($msg) {
+			mkdirWithCheck("logs");
+			$msgWithDate=date("Y-m-d") . ':' . $msg;
+			error_log($msgWithDate, 3, "logs/error.log");
 		}
 
 		function validatePage($pageId) {
@@ -159,7 +176,7 @@
 				             </script>';
 					}
 				} catch (Exception $e) {
-					renderError();
+					renderErrorAndLog($e->getMessage());
 				}
 			?>
 		</div>

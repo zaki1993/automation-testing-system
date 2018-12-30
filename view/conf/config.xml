@@ -1,10 +1,11 @@
+<?xml version="1.0"?>
 <Configuration>
 	<Modules>
 		<Module>
 			<Name>java</Name>
 			<Executables>
 				<Executable>
-					<Version>1.8.0_191</Version>
+					<Version>1.8.0_191asdasd</Version>
 					<Path>/usr/bin/javac</Path>
 				</Executable>
 				<Executable>
@@ -13,31 +14,20 @@
 				</Executable>
 			</Executables>
 		</Module>
-				<Module>
+		<Module>
 			<Name>java1</Name>
 			<Executables>
 				<Executable>
-					<Version>1.8.0_191</Version>
+					<Version>1.8.0_191test1</Version>
 					<Path>/usr/bin/javac</Path>
 				</Executable>
 				<Executable>
-					<Version>1.8.0_191</Version>
+					<Version>1.8.0_191sdasdas</Version>
 					<Path>/usr/bin/java</Path>
 				</Executable>
 			</Executables>
 		</Module>
-				<Module>
-			<Name>java2</Name>
-			<Executables>
-				<Executable>
-					<Version>1.8.0_191</Version>
-					<Path>/usr/bin/javac</Path>
-				</Executable>
-				<Executable>
-					<Version>1.8.0_191</Version>
-					<Path>/usr/bin/java</Path>
-				</Executable>
-			</Executables>
-		</Module>
-	</Modules>
+		
+		
+	<Module><Name>test</Name><Executables><Executable><Version>123123fdfdf</Version><Path>g123123sadsdfgf</Path></Executable><Executable><Version>fd123123fdfd</Version><Path>123123g</Path></Executable></Executables></Module><Module><Name>ggg</Name><Executables><Executable><Version>gg12312344343</Version><Path>gggdfdfdfg</Path></Executable></Executables></Module></Modules>
 </Configuration>

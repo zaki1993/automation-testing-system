@@ -101,3 +101,38 @@ h4 {
     padding: 15px;
     margin-bottom: 5px;
 }
+
+.module:hover:not(.selectedModule) {
+    background-color: #FFEBCD;
+}
+
+.selectedModule {
+    background-color: #ADFF2F;
+}
+
+.config-navbar input {
+    width: 55px;
+    height: 55px;
+
+    /* Hide the text. */
+    text-indent: -9999px; /* sends the text off the screen */
+    white-space: nowrap;
+    overflow: hidden;
+
+    border: none;
+}
+
+.config-navbar .add {
+    background: url(../resources/add.png) no-repeat scroll;
+    background-size: 55px 55px;
+}
+
+.config-navbar .remove {
+    background:url(../resources/remove.png) no-repeat scroll;
+    background-size: 55px 55px;
+}
+
+.config-navbar .edit {
+    background:url(../resources/edit.png) no-repeat scroll;
+    background-size: 55px 55px;
+}
