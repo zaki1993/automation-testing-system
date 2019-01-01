@@ -197,8 +197,18 @@
 
 		if ($score==-1 && $score < $successTests) {
 			$userTestsDao->executeInsert("INSERT INTO User_Homework(folder, user_name, score, last_test_date) VALUES(?, ?, ?, ?);", [$homeworkId, $username, $successTests, date("Y-m-d")]);
-		} else if ($score!=-1 && $score < $successTests) {
-			$userTestsDao->executeQuery("UPDATE User_Homework SET score=? WHERE folder=? AND user_name=? AND last_test_date=?;", [$successTests, $homeworkId, $username, date("Y-m-d")]);
+		} else if ($score!=-1 && $score <= $successTests) {
+			$userTestsDao->executeQuery("UPDATE User_Homework SET score=?, last_test_date=? WHERE folder=? AND user_name=?;", [$successTests, date("Y-m-d"), $homeworkId, $username]);
+		}
+	}
+
+	function validateStartEndDateRange() {
+		$homework=$_SESSION['homework'];
+		$hwStartDate=date('Y-m-d', strtotime($homework->getStartDate()));
+		$hwEndDate=date('Y-m-d', strtotime($homework->getEndDate()));
+		$currentDate=date('Y-m-d', strtotime(date('Y-m-d')));
+		if($currentDate<$hwStartDate || $currentDate>$hwEndDate) {
+			throw new Exception("You cannot upload homework since it has expired!");
 		}
 	}
 
@@ -209,10 +219,11 @@
 			} else {
 				# check if the user has uploaded homework for testing
 				if(isset($_FILES['homework-submition']) && $_FILES['homework-submition']['size'] > 0) {
-					$fileParts = explode('.', $_FILES['homework-submition']['name']);
-					$extension = end($fileParts);
-					# process only if the file has .zip extension
 					try {
+						validateStartEndDateRange();
+						$fileParts = explode('.', $_FILES['homework-submition']['name']);
+						$extension = end($fileParts);
+						# process only if the file has .zip extension
 						uploadSolution($extension, $homeworkId);
 					} catch (Exception $e) {
 						echo getErrorBlock($e->getMessage());
