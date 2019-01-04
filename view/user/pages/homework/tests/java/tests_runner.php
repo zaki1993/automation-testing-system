@@ -6,11 +6,11 @@
 		private $jdk;
 		private $jre;
 
-		public function run() {
+		public function run($userInput) {
 			$this->shell=new Shell();
 			$this->__initJava();
-			$this->compile();
-			return $this->runTests();
+			$this->compile($userInput);
+			return $this->runTests($userInput);
 		}
 
 		private function __initJava() {
@@ -21,8 +21,16 @@
 			$this->jre=$executables[1];
 		}
 
+		private function compile($userInput) {
+			if ($userInput!=NULL) {
+				$this->compileWithUserInput();
+			} else {
+				$this->compileWithJUnit();
+			}
+		}
+
 		# function used to compile java files
-		private function compile() {
+		private function compileWithJUnit() {
 
 			$userTests=$this->userTests;
 			# get java compiler path
@@ -34,16 +42,50 @@
 			}		
 		}
 
-		private function runTests() {
+		# function used to compile java files
+		private function compileWithUserInput() {
+
+			$userTests=$this->userTests;
+			# get java compiler path
+			$jdkPath=$this->jdk->getPath(); 
+
+			$resultMsg=$this->shell->execute("cd ${userTests} && ${jdkPath} *.java");
+			if (strlen($resultMsg)>0) {
+				throw new Exception($resultMsg);
+			}		
+		}
+
+		private function runTests($userInput) {
 
 			$userTests=$this->userTests;
 			$jrePath=$this->jre->getPath();
-			$resultMsg=$this->shell->execute("cd ${userTests} && ${jrePath} -cp junit-4.1.jar:. org.junit.runner.JUnitCore TestCalculator");
+
+			$resultMsg=NULL;
+			if ($userInput==NULL) {
+				// execute JUnit tests
+				$resultMsg=$this->runJUnit($userTests, $jrePath);
+			} else {
+				$resultMsg=$this->runTestsAgainstUserInput($userTests, $jrePath, $userInput);
+			}
+
 			echo "<div id=\"tests-block\"><pre>${resultMsg}</pre></div>";
-			return $this->numberOfSuccessfullTests($resultMsg);
+			return $this->numberOfSuccessfullTests($resultMsg, $userInput);
 		}
 
-		private function numberOfSuccessfullTests($result) {
+		// TODO search for main method
+		private function runTestsAgainstUserInput($userTests, $jrePath, $userInput) {
+			return $this->shell->execute("cd ${userTests} && echo ${userInput} | ${jrePath} TestCalculatorUserInput");
+		}
+
+		// TODO search for main method
+		private function runJUnit($userTests, $jrePath) {
+			return $this->shell->execute("cd ${userTests} && ${jrePath} -cp junit-4.1.jar:. org.junit.runner.JUnitCore TestCalculator");
+		}
+
+		private function numberOfSuccessfullTests($result, $userInput) {
+			if ($userInput!=NULL) {
+				return 0; // user input tests give 0 score points
+			}
 			try {
 				if (strpos($result, "Tests run:")!=false) {
 					$testResult=substr($result, strpos($result, "Tests run:"));

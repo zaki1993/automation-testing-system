@@ -29,5 +29,5 @@
 		</Module>
 		
 		
-	<Module><Name>test</Name><Executables><Executable><Version>123123fdfdf</Version><Path>g123123sadsdfgf</Path></Executable><Executable><Version>fd123123fdfd</Version><Path>123123g</Path></Executable></Executables></Module><Module><Name>ggg</Name><Executables><Executable><Version>gg12312344343</Version><Path>gggdfdfdfg</Path></Executable></Executables></Module></Modules>
+	<Module><Name>test</Name><Executables><Executable><Version>123123fdfdf</Version><Path>g123123sadsdfgf</Path></Executable><Executable><Version>fd123123fdfd</Version><Path>123123g</Path></Executable></Executables></Module></Modules>
 </Configuration>

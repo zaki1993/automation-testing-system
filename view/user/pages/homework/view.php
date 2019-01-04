@@ -14,6 +14,31 @@
 		       this.value = "";
 		    };
 		};
+
+		// get all elements with class close
+		var closebtns = document.getElementsByClassName("close");
+		// add event listener to all the elements
+		for (i = 0; i < closebtns.length; i++) {
+			closebtns[i].addEventListener("click", function() {
+				closeDiv(this);
+			});
+		}
+
+		var unitTestingRadioButton = document.getElementById("unit-testing-btn");
+		unitTestingRadioButton.addEventListener("change", function() {
+			if (this.value) {
+				var userInputArea = document.getElementById("user-input-area");
+				userInputArea.style.display="none";
+			}
+		});
+
+		var userInputRadioButton = document.getElementById("user-input-btn");
+		userInputRadioButton.addEventListener("change", function() {
+			if (this.value) {
+				var userInputArea = document.getElementById("user-input-area");
+				userInputArea.style.display="block";
+			}
+		});
 	};
 </script>
 <?php
@@ -58,23 +83,34 @@
 		return $result;
 	}
 
-	function getHomeworkInfo($homework) {
-		return "<div class=\"homework-info\">
-					<p><h4>Име:  </h4>" . $homework->getName() . "</p>
-					<p><h4>Начало:  </h4>" . $homework->getStartDate() . "</p>
-					<p><h4>Край:  </h4>" . $homework->getEndDate() . "</p>
-					<p><h4>Програмен език:  </h4>" . $homework->getLanguage() . "</p>
-				</div>";
+	function renderHomeworkInfo($homework) {
+		echo "<div class=\"homework-info\">
+				<p><h4>Име:  </h4>" . $homework->getName() . "</p>
+				<p><h4>Начало:  </h4>" . $homework->getStartDate() . "</p>
+				<p><h4>Край:  </h4>" . $homework->getEndDate() . "</p>
+				<p><h4>Програмен език:  </h4>" . $homework->getLanguage() . "</p>
+			  </div>";
 	}
 
-	function getUploadTestForm() {
-		return '<div>
-				 	<form method="POST" action="" enctype="multipart/form-data">
-						<label for="homework-submition"><b>Качи тестове: </b></label>
-						<input id="hw-user-tests" type="file" name="homework-submition" required/>
-						<input type="submit" value="Качи тестове" id="submit-tests"/>
-					</form>
-			    </div>';
+	function renderUploadTestForm() {
+
+		if (isset($_POST['show-homework-submition-panel']) && $_POST['show-homework-submition-panel']=='true') {
+			echo '<div id="homework-upload-panel">
+				<span class="close">&times;</span>
+			 	<form method="POST" action="" enctype="multipart/form-data">
+					<label for="homework-submition"><b>Качи тестове: </b></label>
+					<input id="hw-user-tests" type="file" name="homework-submition" required/>
+					<div>
+						<input id="unit-testing-btn" type="radio" name="test-way" value="unit-testing" checked="checked">Unit тестове
+						<input id="user-input-btn" type="radio" name="test-way" value="user-input">Потребителски вход
+						<textarea id="user-input-area" name="user-input-value">
+
+						</textarea>
+					</div>
+					<input type="submit" value="Качи тестове" id="submit-tests"/>
+				</form>
+		      </div>';
+		}
 	}
 
 	function getHomework() {
@@ -88,8 +124,16 @@
 				. file_get_contents($assignment) . 
 			  '</div>';
 
-		echo getHomeworkInfo($homework);
-		echo getUploadTestForm();
+		renderHomeworkInfo($homework);
+		renderHomeworkSubmitionForm();
+		renderUploadTestForm();
+	}
+
+	function renderHomeworkSubmitionForm() {
+		echo '<form action="" method="POST" id="homework-submit">
+				<input type="hidden" name="show-homework-submition-panel" value="true"/>
+				<input type="submit" value="Качи домашно"/>
+			  </form>';
 	}
 
 	function renderAllHomeworks() {
@@ -151,17 +195,17 @@
 		}
 	}
 
-	function runTests($path, $homeworkId) {
+	function runTests($path, $homeworkId, $userInput) {
 
 		$homework=getHomework();
 		$language=$homework->getLanguage();
 		require_once "tests/base_tests_runner.php";
 		require_once "tests/${language}/tests_runner.php";	
 		$testsRunner=new TestRunner("view/homeworks/${homeworkId}/hw_tests/tests", $path . "/tests");
-		return $testsRunner->run();
+		return $testsRunner->run($userInput);
 	}
 
-	function uploadSolution($extension, $homeworkId) {
+	function uploadSolution($extension, $homeworkId, $testWay) {
 		validateExtension($extension, ["zip"]);
 		# get the current logged in username and add the tests to his own folder
 		$username=$_SESSION['__userData']->getUsername();
@@ -182,7 +226,11 @@
 			$shell->execute("unzip ${path}/tests.zip -d ${path}/tests");
 			# remove tests.zip file
 			$shell->execute("rm ${path}/tests.zip");
-			$successTests=runTests($path, $homeworkId);
+			$userInput=NULL;
+			if ($testWay==="user-input" && isset($_POST['user-input-value'])) {
+				$userInput=$_POST['user-input-value'];
+			}
+			$successTests=runTests($path, $homeworkId, $userInput);
 			insertUserTestResults($username, $homeworkId, $successTests);
 		} catch (Exception $e) {
 			echo getErrorBlock($e->getMessage());
@@ -219,14 +267,16 @@
 			} else {
 				# check if the user has uploaded homework for testing
 				if(isset($_FILES['homework-submition']) && $_FILES['homework-submition']['size'] > 0) {
-					try {
-						validateStartEndDateRange();
-						$fileParts = explode('.', $_FILES['homework-submition']['name']);
-						$extension = end($fileParts);
-						# process only if the file has .zip extension
-						uploadSolution($extension, $homeworkId);
-					} catch (Exception $e) {
-						echo getErrorBlock($e->getMessage());
+					if (isset($_POST['test-way'])) {
+	 					try {
+							validateStartEndDateRange();
+							$fileParts = explode('.', $_FILES['homework-submition']['name']);
+							$extension = end($fileParts);
+							# process only if the file has .zip extension
+							uploadSolution($extension, $homeworkId, $_POST['test-way']);
+						} catch (Exception $e) {
+							echo getErrorBlock($e->getMessage());
+						}
 					}
 				}
 			}

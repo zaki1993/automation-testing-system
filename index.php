@@ -8,11 +8,19 @@
 </head>
 <body>
 	<script type="text/javascript">
-	    // close the div in 5 secs
-	    window.setTimeout("closeDiv();", 5000);
+	    // close the div in 4 secs
+	    window.setTimeout("hideErrorPanel();", 4000);
 
-	    function closeDiv(){
-	    	document.getElementById("upload-failed").style.display=" none";
+	    function hideErrorPanel(){
+	    	var errorPanel=document.getElementById("error-panel");
+	    	errorPanel.style.display="none";
+	    	// TODO remove the panel as child
+	    }
+
+	    function closeDiv(closeButton) {
+	    	// hides the div by clicking close button 
+	    	// in top right corner
+	    	closeButton.parentElement.style.display='none';
 	    }
 	</script>
 
@@ -77,8 +85,8 @@
 		}
 
 		function getErrorBlock($msg) {
-			return "<div id=\"upload-failed\">
-				   <h2><pre>${msg}</pre></h2>
+			return "<div id=\"error-panel\">
+				   <pre>${msg}dfgdfghgfhfksdkfsdkljfklsdjfklsdjfklsdjkfljsklfjsdklfjsdklfjk</pre>
 				   </div>";
 		}
 

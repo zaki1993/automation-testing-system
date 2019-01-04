@@ -55,9 +55,22 @@ input[type=file], input[type=date], input[type="text"] {
     display: block;
 }
 
-#upload-failed {
-    padding: 2%;
+#error-panel {
+    padding: 1%;
     color: red;
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    width:30em;
+    height:18em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    z-index:99;
+    border: 1px solid #ccc;
+    background-color: #c2c2c2;
+    font-size: 17px;
+    font-weight: bold;
+    word-break: break-all;
 }
 
 .main-container  {
@@ -135,4 +148,43 @@ h4 {
 .config-navbar .edit {
     background:url(../resources/edit.png) no-repeat scroll;
     background-size: 55px 55px;
+}
+
+#homework-upload-panel {
+    padding: 1%;
+    color: red;
+    position: fixed; 
+    top: 45%;
+    left: 45%;
+    width:35em;
+    height:25em;
+    margin-top: -9em; /*set to a negative number 1/2 of your height*/
+    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    z-index:99;
+    border: 1px solid #ccc;
+    background-color: #c2c2c2;
+    font-size: 17px;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  color: black;
+  right: 0%;    
+  padding: 12px 10px;
+  transform: translate(0%, -40%);
+}
+
+.close:hover {
+    background: gray;
+}
+
+#user-input-area {
+    width: 40em;
+    height: 20em;
+    align-content: center;
+    overflow: auto;
+    display: none;
 }
