@@ -62,7 +62,6 @@
 		}
 
 		function validateUser() {
-			session_start();
 			if (!isset($_SESSION["__userData"]) || $_SESSION["__userData"]==NULL) {
 				echo '<script type="text/javascript">
 		                window.location = "./view/user/login"
@@ -156,6 +155,14 @@
 			return $prLangs;
 		}
 
+		function cacheProperties() {
+			$dbIni = parse_ini_file('view/conf/db.ini');
+			foreach ($dbIni as $key => $value) {
+				echo $key . " " . $value;
+				$_SESSION[$key]=$value;
+			}
+		}
+
 		function cacheConfiguration() {
 			$configuration=new Configuration();
 			$_SESSION['configuration']=$configuration;
@@ -164,6 +171,8 @@
 
 	<?php
 		# Before all execution
+		session_start();
+		cacheProperties();
 		validateUser();
 	?>
 	<div class="container">
