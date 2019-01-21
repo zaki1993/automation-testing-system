@@ -77,7 +77,7 @@
 				foreach ($parents as $parent) {
 					$catalog.=$parent . "/";
 					if (!file_exists($catalog)) {
-						mkdir($catalog);
+						mkdir($catalog, 0777);
 					}
 				}
 			}
@@ -85,7 +85,7 @@
 
 		function getErrorBlock($msg) {
 			return "<div id=\"error-panel\">
-				   <pre>${msg}dfgdfghgfhfksdkfsdkljfklsdjfklsdjfklsdjkfljsklfjsdklfjsdklfjk</pre>
+				   <pre>${msg}</pre>
 				   </div>";
 		}
 
@@ -158,7 +158,6 @@
 		function cacheProperties() {
 			$dbIni = parse_ini_file('view/conf/db.ini');
 			foreach ($dbIni as $key => $value) {
-				echo $key . " " . $value;
 				$_SESSION[$key]=$value;
 			}
 		}

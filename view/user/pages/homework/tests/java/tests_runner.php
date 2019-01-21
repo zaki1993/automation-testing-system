@@ -49,7 +49,7 @@
 			# get java compiler path
 			$jdkPath=$this->jdk->getPath(); 
 
-			$resultMsg=$this->shell->execute("cd ${userTests} && ${jdkPath} *.java");
+			$resultMsg=$this->shell->execute("cd ${userTests} && ${jdkPath} *UserInputTest.java");
 			if (strlen($resultMsg)>0) {
 				throw new Exception($resultMsg);
 			}		
@@ -74,12 +74,26 @@
 
 		// TODO search for main method
 		private function runTestsAgainstUserInput($userTests, $jrePath, $userInput) {
-			return $this->shell->execute("cd ${userTests} && echo ${userInput} | ${jrePath} TestCalculatorUserInput");
+			$userInputTests=$this->findUserInputTests();
+			return $this->shell->execute("cd ${userTests} && echo ${userInput} | ${jrePath} ${userInputTests}");
 		}
 
 		// TODO search for main method
 		private function runJUnit($userTests, $jrePath) {
-			return $this->shell->execute("cd ${userTests} && ${jrePath} -cp junit-4.1.jar:. org.junit.runner.JUnitCore TestCalculator");
+			$junitTests=$this->findJunitTests();
+			return $this->shell->execute("cd ${userTests} && ${jrePath} -cp junit-4.1.jar:. org.junit.runner.JUnitCore ${junitTests}");
+		}
+
+		private function findJunitTests() {
+			$hwTestsDir=$this->hwTests;
+			$filesWithExtensions=$this->shell->execute("echo `ls ${hwTestsDir} | grep UnitTest.java`");
+			return preg_replace("/.java/", "", $filesWithExtensions);
+		}
+
+		private function findUserInputTests() {
+			$hwTestsDir=$this->hwTests;
+			$filesWithExtensions=$this->shell->execute("echo `ls ${hwTestsDir} | grep UserInputTest.java`");
+			return preg_replace("/.java/", "", $filesWithExtensions);
 		}
 
 		private function numberOfSuccessfullTests($result, $userInput) {
